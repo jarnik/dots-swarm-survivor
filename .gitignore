@@ -1,0 +1,15 @@
+# Runtime unity files
+[Ll]ibrary/
+[Ll]ogs/
+[Tt]emp/
+[Oo]bj/
+[Uu]serSettings/
+
+# IDE settings
+.vscode
+
+# solution files
+[Aa]ssembly-*
+*.sln
+*.csproj
+*.suo
