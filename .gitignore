@@ -5,6 +5,10 @@
 [Oo]bj/
 [Uu]serSettings/
 
+# Unity Entities baking cache
+Assets/SceneDependencyCache/**
+Assets/SceneDependencyCache.meta
+
 # IDE settings
 .vscode
 
