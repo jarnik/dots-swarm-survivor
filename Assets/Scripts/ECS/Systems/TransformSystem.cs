@@ -1,6 +1,7 @@
 using Swarm.ECS.Components;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace Swarm.ECS.Systems
@@ -27,12 +28,23 @@ namespace Swarm.ECS.Systems
 
         void Execute(ref LocalTransform transform, in Direction dir, in MovementSpeed speed)
         {
-            // Apply movement: Position + (Direction * Speed * Time)
-            
             transform.Position += dir.Value * speed.Value * DeltaTime;
-
-            // // Optional: Make enemies face the player
-            // transform.Rotation = quaternion.LookRotationSafe(dir.Value, math.up());
+            
+            if (dir.isOriented && math.lengthsq(dir.Value) > 0.001f)
+            {
+                var angle = math.atan2(dir.Value.y, dir.Value.x);
+                transform.Rotation = quaternion.Euler(0, 0, angle - math.radians(90));
+            } else if (dir.isFlipFace && math.lengthsq(dir.Value) > 0.001f)
+            {
+                if (dir.Value.x < 0)
+                {
+                    transform.Rotation = quaternion.Euler(0, math.radians(180), 0);
+                }
+                else
+                {
+                    transform.Rotation = quaternion.Euler(0, 0, 0);
+                }
+            }
         }
     }
 }

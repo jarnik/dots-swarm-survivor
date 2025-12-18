@@ -14,7 +14,6 @@ namespace Swarm.ECS
                 AddComponent<ProjectileTag>(entity);
                 AddComponent<Direction>(entity);
                 AddComponent<MovementSpeed>(entity);
-
                 SetComponent(entity, new MovementSpeed { Value = 5f });
             }
         }
