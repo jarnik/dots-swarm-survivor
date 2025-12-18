@@ -46,7 +46,7 @@ namespace Swarm.ECS.Systems
                 dir.Value = float3.zero;
             }
 
-            speed.Value = 0.5f;
+            // speed.Value = 0.5f;
         }
     }
 }

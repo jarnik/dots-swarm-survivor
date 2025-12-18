@@ -64,6 +64,7 @@ Components
 - [ ] Health
 - [ ] Damage
 - [ ] Lifetime
+- [ ] ProjectileSpawner
 - [ ] ExperienceValue
 - [x] SpawnerConfig
 Systems

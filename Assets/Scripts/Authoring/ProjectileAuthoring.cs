@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace Swarm.ECS
 {
-    public class EnemyAuthoring : MonoBehaviour
+    public class ProjectileAuthoring : MonoBehaviour
     {
-        public class Baker : Baker<EnemyAuthoring>
+        public class Baker : Baker<ProjectileAuthoring>
         {
-            public override void Bake(EnemyAuthoring authoring)
+            public override void Bake(ProjectileAuthoring authoring)
             {
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
-                AddComponent<EnemyTag>(entity);
+                AddComponent<ProjectileTag>(entity);
                 AddComponent<Direction>(entity);
                 AddComponent<MovementSpeed>(entity);
 
-                SetComponent(entity, new MovementSpeed { Value = 0.3f });
+                SetComponent(entity, new MovementSpeed { Value = 5f });
             }
         }
     }
