@@ -63,11 +63,11 @@ namespace Swarm.ECS.Systems
             {
                 direction = float3.zero;
             }
-            
+
             // Set initial position and rotation
             ECB.SetComponent(chunkIndex, projectile, LocalTransform.FromPosition(Origin));
             ECB.SetComponent(chunkIndex, projectile, new Direction { Value = direction, isOriented = true });
-            // ECB.SetComponent(chunkIndex, projectile, new Lifetime { Value = 3.0f });
+            ECB.SetComponent(chunkIndex, projectile, new Lifetime { Life = 1.0f });
         }
     }
 }

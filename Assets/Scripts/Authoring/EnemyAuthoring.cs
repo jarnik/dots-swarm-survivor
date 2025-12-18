@@ -14,6 +14,7 @@ namespace Swarm.ECS
                 AddComponent<EnemyTag>(entity);
                 AddComponent<Direction>(entity);
                 AddComponent<MovementSpeed>(entity);
+                AddComponent<Prefab>(entity);
 
                 SetComponent(entity, new MovementSpeed { Value = 0.3f });
             }
