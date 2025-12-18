@@ -54,5 +54,26 @@ DOTS Features:
 Runtime
     Player -->
 
-TODO
-- [ ] 
+Components
+- [x] PlayerTag
+- [x] EnemyTag
+- [ ] ProjectileTag
+- [ ] ExperienceOrbTag
+- [x] Direction
+- [x] MovementSpeed
+- [ ] Health
+- [ ] Damage
+- [ ] Lifetime
+- [ ] ExperienceValue
+- [x] SpawnerConfig
+Systems
+- [x] PlayerInputSystem - SystemBase
+- [x] PlayerMoveSystem
+- [x] EnemyAISystem
+- [x] TransformSystem
+- [ ] SpawnerSystem
+- [ ] HashGridSystem
+- [ ] CollisionSystem
+- [ ] ProjectileSystem
+- [ ] ExperienceCollectionSystem
+- [ ] DespawnSystem

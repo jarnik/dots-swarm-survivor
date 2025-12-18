@@ -12,6 +12,11 @@ namespace Swarm.ECS
             {
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
                 AddComponent<PlayerTag>(entity);
+                AddComponent<PlayerInput>(entity);
+                AddComponent<Direction>(entity);
+                AddComponent<MovementSpeed>(entity);
+
+                SetComponent(entity, new MovementSpeed { Value = 5f });
             }
         }
     }

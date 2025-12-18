@@ -16,7 +16,6 @@ namespace Swarm.ECS.Systems
             {
                 return;
             }
-
             var playerTransform = SystemAPI.GetComponent<LocalTransform>(playerEntity);
             float3 playerPos = playerTransform.Position;
 
