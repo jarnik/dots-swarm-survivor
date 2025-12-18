@@ -18,9 +18,9 @@ namespace Swarm.ECS
 
             var config = SystemAPI.GetSingleton<SpawnerConfig>();
 
-            var rng = Unity.Mathematics.Random.CreateFromIndex(0xCAFEBABEu);
+            var rng = Random.CreateFromIndex(0xCAFEBABEu);
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < config.Count; i++)
             {
                 Entity e = ecb.Instantiate(config.EnemyPrefab);
 
