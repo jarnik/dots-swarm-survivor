@@ -1,7 +1,5 @@
 using Unity.Burst;
 using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Transforms;
 using Swarm.ECS.Components;
 
 namespace Swarm.ECS.Systems
@@ -18,27 +16,50 @@ namespace Swarm.ECS.Systems
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
             var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
-            var handle = new DespawnJob
+            var despawnProjectilesJob = new DespawnProjectilesJob
             {
                 DeltaTime = deltaTime,
                 Ecb = ecb.AsParallelWriter()
             }.ScheduleParallel(state.Dependency);
 
-            // Update the system dependency
-            state.Dependency = handle;
+            despawnProjectilesJob.Complete();
+
+            var despawnEnemiesJob = new DespawnEnemiesJob
+            {
+                DeltaTime = deltaTime,
+                Ecb = ecb.AsParallelWriter()
+            }.ScheduleParallel(state.Dependency);
+
+            state.Dependency = despawnEnemiesJob;
         }
 
         [BurstCompile]
-        public partial struct DespawnJob : IJobEntity
+        public partial struct DespawnProjectilesJob : IJobEntity
         {
             public float DeltaTime;
             public EntityCommandBuffer.ParallelWriter Ecb;
 
-            // we exclude Prefab tags
             void Execute([ChunkIndexInQuery] int sortKey, Entity entity, ref Lifetime lifetime, in ProjectileTag tag)
             {
                 lifetime.Life -= DeltaTime;
                 if (lifetime.Life <= 0)
+                {
+                    // Record destroy; ECB will perform it safely on main thread
+                    Ecb.DestroyEntity(sortKey, entity);
+                }
+            }
+        }
+
+        [BurstCompile]
+        public partial struct DespawnEnemiesJob : IJobEntity
+        {
+            public float DeltaTime;
+            public EntityCommandBuffer.ParallelWriter Ecb;
+
+            void Execute([ChunkIndexInQuery] int sortKey, Entity entity, ref Health health, in EnemyTag tag)
+            {
+                health.Value -= DeltaTime;
+                if (health.Value <= 0)
                 {
                     // Record destroy; ECB will perform it safely on main thread
                     Ecb.DestroyEntity(sortKey, entity);

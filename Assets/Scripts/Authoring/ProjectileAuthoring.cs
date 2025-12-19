@@ -15,7 +15,7 @@ namespace Swarm.ECS
                 AddComponent<Direction>(entity);
                 AddComponent<Lifetime>(entity);
                 AddComponent<MovementSpeed>(entity);
-                SetComponent(entity, new MovementSpeed { Value = 5f });
+                SetComponent(entity, new MovementSpeed { Value = 2f });
 
                 // This tells the baking system this is a template, not a world object
                 AddComponent<Prefab>(entity);

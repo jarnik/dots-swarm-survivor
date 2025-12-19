@@ -15,8 +15,12 @@ namespace Swarm.ECS
                 AddComponent<Direction>(entity);
                 AddComponent<MovementSpeed>(entity);
                 AddComponent<Prefab>(entity);
+                AddComponent<Health>(entity);
+
+                var buffer = AddBuffer<DamageEvent>(entity);
 
                 SetComponent(entity, new MovementSpeed { Value = 0.3f });
+                SetComponent(entity, new Health { Value = 100f });
             }
         }
     }

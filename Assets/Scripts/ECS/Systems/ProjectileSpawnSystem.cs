@@ -1,20 +1,25 @@
 using Swarm.ECS.Components;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace Swarm.ECS.Systems
 {
     [BurstCompile]
-    public partial struct ProjectileSystem : ISystem
+    [UpdateAfter(typeof(HashGridSystem))]
+    public partial struct ProjectileSpawnSystem : ISystem
     {
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
             float deltaTime = SystemAPI.Time.DeltaTime;
-            var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>()
-                .CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
+
+            var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
+            var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
+
+            JobHandle spawnJob = default;
 
             foreach (var (spawner, transform, entity) in
                     SystemAPI.Query<RefRW<ProjectileSpawner>, RefRO<LocalTransform>>()
@@ -27,17 +32,20 @@ namespace Swarm.ECS.Systems
 
                     // For a showcase: Fire at every enemy currently in the world
                     // In a real game, you'd use the HashGrid to find the nearest N enemies
-                    new SpawnProjectileJob
+                    spawnJob = new SpawnProjectileJob
                     {
                         ECB = ecb,
                         Prefab = spawner.ValueRO.ProjectilePrefab,
                         Origin = transform.ValueRO.Position
-                    }.ScheduleParallel();
+                    }.ScheduleParallel(state.Dependency);
+
+                    state.Dependency = spawnJob;
                 }
             }
+
         }
     }
-    
+
     [BurstCompile]
     public partial struct SpawnProjectileJob : IJobEntity
     {
