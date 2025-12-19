@@ -72,7 +72,7 @@ Systems
 - [x] PlayerMoveSystem
 - [x] EnemyAISystem
 - [x] TransformSystem
-- [ ] SpawnerSystem
+- [x] SpawnerSystem
 - [ ] HashGridSystem
 - [ ] CollisionSystem
 - [ ] ProjectileSystem
