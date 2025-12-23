@@ -57,13 +57,13 @@ Runtime
 Components
 - [x] PlayerTag
 - [x] EnemyTag
-- [ ] ProjectileTag
+- [x] ProjectileTag
 - [ ] ExperienceOrbTag
 - [x] Direction
 - [x] MovementSpeed
-- [ ] Health
+- [x] Health
 - [ ] Damage
-- [ ] Lifetime
+- [x] Lifetime
 - [ ] ProjectileSpawner
 - [ ] ExperienceValue
 - [x] SpawnerConfig
@@ -73,7 +73,7 @@ Systems
 - [x] EnemyAISystem
 - [x] TransformSystem
 - [x] SpawnerSystem
-- [ ] HashGridSystem
+- [x] HashGridSystem
 - [ ] CollisionSystem
 - [ ] ProjectileSystem
 - [ ] ExperienceCollectionSystem

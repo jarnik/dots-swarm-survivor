@@ -22,7 +22,7 @@ namespace Swarm.ECS
 
                 AddComponent<ProjectileSpawner>(entity);
                 var projectileEntity = GetEntity(authoring.ProjectilePrefab, TransformUsageFlags.Dynamic);
-                SetComponent(entity, new ProjectileSpawner { Cooldown = 0.2f, Timer = 0f, ProjectilePrefab = projectileEntity });
+                SetComponent(entity, new ProjectileSpawner { Cooldown = 0.5f, Timer = 0f, ProjectilePrefab = projectileEntity });
             }
         }
     }

@@ -61,18 +61,20 @@ namespace Swarm.ECS.Systems
 
         [BurstCompile]
         public static void SearchGrid<TProcessor, TTag>(
-            float3 position, 
-            float radius, 
+            float3 position,
+            float radius,
             [ReadOnly] NativeParallelMultiHashMap<uint, Entity> grid,
             ComponentLookup<LocalTransform> entityTransforms,
             [ReadOnly] ComponentLookup<TTag> tags,
-            ref TProcessor processor
+            ref TProcessor processor,
+            ref uint collisionsFound
         )
             where TProcessor : struct, ICollisionProcessor
             where TTag : unmanaged, IComponentData
         {
             int2 center = GetGridPosition(position);
             float radiusSq = radius * radius;
+            var collisionCount = 0;
 
             // search neighboring cells
             for (int x = -1; x <= 1; x++)
@@ -87,7 +89,7 @@ namespace Swarm.ECS.Systems
                             // Filter by tag first to avoid unnecessary lookups
                             if (!tags.HasComponent(other))
                                 continue;
-                                
+
                             var otherEntityTransform = entityTransforms[other];
                             float distSq = math.lengthsq(otherEntityTransform.Position - position);
 
@@ -95,10 +97,14 @@ namespace Swarm.ECS.Systems
                                 continue;
 
                             processor.OnHit(other);
+
+                            collisionCount++;
                         } while (grid.TryGetNextValue(out other, ref it));
                     }
                 }
             }
+            
+            collisionsFound = (uint)collisionCount;
         }
     }
 

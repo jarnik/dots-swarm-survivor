@@ -1,14 +1,12 @@
 using Swarm.ECS.Components;
 using Unity.Burst;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace Swarm.ECS.Systems
 {
     [BurstCompile]
-    [UpdateAfter(typeof(HashGridSystem))]
     public partial struct ProjectileSpawnSystem : ISystem
     {
         [BurstCompile]
@@ -18,8 +16,6 @@ namespace Swarm.ECS.Systems
 
             var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
             var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
-
-            JobHandle spawnJob = default;
 
             foreach (var (spawner, transform, entity) in
                     SystemAPI.Query<RefRW<ProjectileSpawner>, RefRO<LocalTransform>>()
@@ -32,7 +28,7 @@ namespace Swarm.ECS.Systems
 
                     // For a showcase: Fire at every enemy currently in the world
                     // In a real game, you'd use the HashGrid to find the nearest N enemies
-                    spawnJob = new SpawnProjectileJob
+                    var spawnJob = new SpawnProjectileJob
                     {
                         ECB = ecb,
                         Prefab = spawner.ValueRO.ProjectilePrefab,
@@ -75,7 +71,6 @@ namespace Swarm.ECS.Systems
             // Set initial position and rotation
             ECB.SetComponent(chunkIndex, projectile, LocalTransform.FromPosition(Origin));
             ECB.SetComponent(chunkIndex, projectile, new Direction { Value = direction, isOriented = true });
-            ECB.SetComponent(chunkIndex, projectile, new Lifetime { Life = 1.0f });
         }
     }
 }

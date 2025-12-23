@@ -3,12 +3,11 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace Swarm.ECS.Systems
 {
     [BurstCompile]
-    [UpdateAfter(typeof(HashGridSystem))]
+    [UpdateBefore(typeof(DespawnSystem))]
     public partial struct ProjectileCollisionSystem : ISystem
     {
         [BurstCompile]
@@ -25,8 +24,7 @@ namespace Swarm.ECS.Systems
                 localTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true),
                 enemyTagLookup = SystemAPI.GetComponentLookup<EnemyTag>(true),
                 hitRadius = 0.2f,
-                damage = 40f,
-                ECB = ecb
+            ECB = ecb
             }.ScheduleParallel(state.Dependency);
 
             state.Dependency = collisionJob;
@@ -40,7 +38,6 @@ namespace Swarm.ECS.Systems
         [ReadOnly] public ComponentLookup<LocalTransform> localTransformLookup;
         [ReadOnly] public ComponentLookup<EnemyTag> enemyTagLookup;
         [ReadOnly] public float hitRadius;
-        [ReadOnly] public float damage;
         public EntityCommandBuffer.ParallelWriter ECB;
 
         public struct EnemyHitProcessor : HashGridSystem.ICollisionProcessor
@@ -56,14 +53,16 @@ namespace Swarm.ECS.Systems
             }
         }
 
-        void Execute([ChunkIndexInQuery] int chunkIndex, in LocalTransform projectileTransform, in ProjectileTag tag)
+        void Execute([ChunkIndexInQuery] int chunkIndex, ref Lifetime lifetime, in LocalTransform projectileTransform, in ProjectileTag projectile)
         {
             var hitProcessor = new EnemyHitProcessor
             {
                 ECB = ECB,
                 SortKey = chunkIndex,
-                Damage = damage
+                Damage = projectile.Damage
             };
+
+            uint collisionCount = 0;
 
             HashGridSystem.SearchGrid(
                 projectileTransform.Position,
@@ -71,8 +70,14 @@ namespace Swarm.ECS.Systems
                 grid,
                 localTransformLookup,
                 enemyTagLookup,
-                ref hitProcessor
+                ref hitProcessor,
+                ref collisionCount
             );
+
+            if (collisionCount > 0)
+            {
+                lifetime.Life = 0f;
+            }
         }
     }
 }
