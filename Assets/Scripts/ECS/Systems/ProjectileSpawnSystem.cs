@@ -3,6 +3,7 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace Swarm.ECS.Systems
 {
@@ -22,23 +23,25 @@ namespace Swarm.ECS.Systems
                     .WithEntityAccess())
             {
                 spawner.ValueRW.Timer -= deltaTime;
+
                 if (spawner.ValueRW.Timer <= 0)
                 {
-                    spawner.ValueRW.Timer = spawner.ValueRW.Cooldown;
+                    var config = SystemAPI.GetSingleton<ProjectileSpawnerConfig>();
 
-                    // For a showcase: Fire at every enemy currently in the world
-                    // In a real game, you'd use the HashGrid to find the nearest N enemies
+                    spawner.ValueRW.Timer = config.Cooldown;
+
+                    // ? TODO use the HashGrid to find the nearest N enemies, in neighborhood
                     var spawnJob = new SpawnProjectileJob
                     {
                         ECB = ecb,
-                        Prefab = spawner.ValueRO.ProjectilePrefab,
-                        Origin = transform.ValueRO.Position
+                        Prefab = config.ProjectilePrefab,
+                        Origin = transform.ValueRO.Position,
+                        DistanceMax = config.DistanceMax
                     }.ScheduleParallel(state.Dependency);
 
                     state.Dependency = spawnJob;
                 }
             }
-
         }
     }
 
@@ -48,15 +51,22 @@ namespace Swarm.ECS.Systems
         public EntityCommandBuffer.ParallelWriter ECB;
         public Entity Prefab;
         public float3 Origin;
+        public float DistanceMax;
 
         // We use [ChunkIndexInQuery] for the ParallelWriter
         void Execute([ChunkIndexInQuery] int chunkIndex, in LocalTransform enemyTransform, in EnemyTag tag)
         {
-            Entity projectile = ECB.Instantiate(chunkIndex, Prefab);
-
             float3 delta = enemyTransform.Position - Origin;
             float distanceSq = math.lengthsq(delta);
 
+            var distanceSqMax = DistanceMax * DistanceMax;
+            if (distanceSq > distanceSqMax)
+            {
+                // Enemy is out of range; do not spawn projectile
+                return;
+            }
+
+            Entity projectile = ECB.Instantiate(chunkIndex, Prefab);
             float3 direction;
             // Only normalize if the distance is greater than a very small epsilon
             if (distanceSq > 0.001f)

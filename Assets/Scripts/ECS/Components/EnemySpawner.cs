@@ -2,7 +2,7 @@ using Unity.Entities;
 
 namespace Swarm.ECS.Components
 {
-    public struct ProjectileSpawner : IComponentData
+    public struct EnemySpawner : IComponentData
     {
         public float Timer;
     }

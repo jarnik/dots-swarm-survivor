@@ -21,8 +21,9 @@ namespace Swarm.ECS
                 SetComponent(entity, new MovementSpeed { Value = 5f });
 
                 AddComponent<ProjectileSpawner>(entity);
-                var projectileEntity = GetEntity(authoring.ProjectilePrefab, TransformUsageFlags.Dynamic);
-                SetComponent(entity, new ProjectileSpawner { Cooldown = 0.5f, Timer = 0f, ProjectilePrefab = projectileEntity });
+                // AddComponent<ProjectileSpawner>(entity);
+                // var projectileEntity = GetEntity(authoring.ProjectilePrefab, TransformUsageFlags.Dynamic);
+                // SetComponent(entity, new TooltipAttribute,er { Cooldown = 0.5f, Timer = 0f, ProjectilePrefab = projectileEntity });
             }
         }
     }
