@@ -12,7 +12,7 @@ namespace Swarm.Runtime
         private void Awake()
         {
             Debug.Assert(_stateContainer != null, "StateContainer is not assigned");
-            SetMode(_stateContainer.data.mode);
+            SetMode(_stateContainer.data.mode, force: true);
         }
 
         private void Update()
@@ -24,9 +24,9 @@ namespace Swarm.Runtime
             }
         }
 
-        private void SetMode(Mode newMode)
+        private void SetMode(Mode newMode, bool force = false)
         {
-            if (_stateContainer.data.mode == newMode)
+            if (_stateContainer.data.mode == newMode && !force)
                 return;
 
             _stateContainer.data.mode = newMode;

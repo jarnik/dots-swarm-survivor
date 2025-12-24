@@ -12,6 +12,7 @@ namespace Swarm.UI
         [SerializeField] private Text _titleText;
         [SerializeField] private Text _objectCountText;
         [SerializeField] private Text _fpsText;
+        [SerializeField] private GameObject _activeIndicator;
         [SerializeField] private Color _colorActive = Color.green;
         [SerializeField] private Color _colorInactive = Color.red;
 
@@ -20,11 +21,17 @@ namespace Swarm.UI
         private void Start()
         {
             Debug.Assert(_stateContainer != null, "StateContainer is not assigned");
+            Debug.Assert(_activeIndicator != null, "ActiveIndicator is not assigned");
         }
 
         private void Update()
         {
             var isActive = _statsProvider != null && _statsProvider.GetCurrentMode() == _stateContainer.data.mode;
+
+            if (_activeIndicator.activeSelf != isActive)
+            {
+                _activeIndicator.SetActive(isActive);
+            }
 
             if (_titleText != null)
             {
