@@ -26,5 +26,7 @@ namespace Swarm.Runtime
         }
 
         public override float GetFPS() => _fps;
+
+        public override Mode GetCurrentMode() => Mode.ECS;
     }
 }

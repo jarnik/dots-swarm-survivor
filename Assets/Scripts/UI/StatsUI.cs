@@ -6,21 +6,37 @@ namespace Swarm.UI
 {
     public class StatsUI : MonoBehaviour
     {
+        [SerializeField] private StatsProviderBase _statsProvider;
+        [SerializeField] private StateContainer _stateContainer;
+        [SerializeField] private float _updateInterval = 0.5f;
+        [SerializeField] private Text _titleText;
         [SerializeField] private Text _objectCountText;
         [SerializeField] private Text _fpsText;
-        [SerializeField] private StatsProviderBase _statsProvider;
-        [SerializeField] private float _updateInterval = 0.5f;
+        [SerializeField] private Color _colorActive = Color.green;
+        [SerializeField] private Color _colorInactive = Color.red;
 
         private float _timeSinceLastUpdate = 0f;
 
+        private void Start()
+        {
+            Debug.Assert(_stateContainer != null, "StateContainer is not assigned");
+        }
+
         private void Update()
         {
-            _timeSinceLastUpdate += Time.unscaledDeltaTime;
-            if (_timeSinceLastUpdate > _updateInterval)
+            var isActive = _statsProvider != null && _statsProvider.GetCurrentMode() == _stateContainer.data.mode;
+
+            if (_titleText != null)
             {
-                _timeSinceLastUpdate = 0f;
-                if (_statsProvider != null)
+                _titleText.color = isActive ? _colorActive : _colorInactive;
+            }
+
+            if (isActive)
+            {
+                _timeSinceLastUpdate += Time.unscaledDeltaTime;
+                if (_timeSinceLastUpdate > _updateInterval)
                 {
+                    _timeSinceLastUpdate = 0f;
                     UpdateStats();
                 }
             }
