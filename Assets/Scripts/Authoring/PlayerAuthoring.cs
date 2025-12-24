@@ -16,6 +16,7 @@ namespace Swarm.ECS
                 AddComponent<PlayerTag>(entity);
                 AddComponent<PlayerInput>(entity);
                 AddComponent<Direction>(entity);
+                SetComponent(entity, new Direction { isLimitedToScreen = true });
 
                 AddComponent<MovementSpeed>(entity);
                 SetComponent(entity, new MovementSpeed { Value = 5f });

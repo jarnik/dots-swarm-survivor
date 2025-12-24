@@ -132,6 +132,8 @@ GameObject:
   m_Component:
   - component: {fileID: 234990175}
   - component: {fileID: 234990176}
+  - component: {fileID: 234990178}
+  - component: {fileID: 234990177}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -206,6 +208,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &234990177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234990174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66776c16a8d585c4ebf27427044effe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerUnit: {fileID: 234990178}
+--- !u!114 &234990178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234990174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc71a0cc1ff99d40841c1113252d091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
+  _direction: {x: 0, y: 0, z: 1}
+  _limitToScreen: 1
+  _screenWidth: 6
+  _screenHeight: 3.6
 --- !u!1001 &470579865
 PrefabInstance:
   m_ObjectHideFlags: 0

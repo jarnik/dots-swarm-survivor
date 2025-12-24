@@ -78,3 +78,12 @@ Systems
 - [ ] ProjectileSystem
 - [ ] ExperienceCollectionSystem
 - [ ] DespawnSystem
+
+GO
+- [ ] EnemySpawner
+- [ ] PlayerInput
+- [ ] ProjectileSpawner
+- [ ] UnitMovement
+- [ ] Projectile triffer - collide w enemy - hit
+- [ ] Lifetime
+- [ ] Health
