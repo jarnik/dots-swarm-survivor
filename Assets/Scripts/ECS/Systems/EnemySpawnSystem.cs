@@ -11,7 +11,7 @@ namespace Swarm.ECS
     {
         public void OnCreate(ref SystemState state)
         {
-            state.RequireForUpdate<EnemySpawnerConfig>();
+            state.RequireForUpdate<EnemySpawner>();
         }
 
         public void OnUpdate(ref SystemState state)

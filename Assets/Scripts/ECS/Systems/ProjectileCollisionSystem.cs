@@ -44,12 +44,11 @@ namespace Swarm.ECS.Systems
         {
             public EntityCommandBuffer.ParallelWriter ECB;
             public int SortKey;
-            public float Damage;
 
             public void OnHit(Entity enemy)
             {
                 ECB.AddBuffer<DamageEvent>(SortKey, enemy);
-                ECB.AppendToBuffer(SortKey, enemy, new DamageEvent { Value = Damage });
+                ECB.AppendToBuffer(SortKey, enemy, new DamageEvent {});
             }
         }
 
@@ -58,8 +57,7 @@ namespace Swarm.ECS.Systems
             var hitProcessor = new EnemyHitProcessor
             {
                 ECB = ECB,
-                SortKey = chunkIndex,
-                Damage = projectile.Damage
+                SortKey = chunkIndex
             };
 
             uint collisionCount = 0;

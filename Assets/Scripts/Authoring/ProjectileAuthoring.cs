@@ -1,3 +1,4 @@
+using Swarm.Data;
 using Swarm.ECS.Components;
 using Unity.Entities;
 using UnityEngine;
@@ -6,22 +7,20 @@ namespace Swarm.ECS
 {
     public class ProjectileAuthoring : MonoBehaviour
     {
+        public ProjectileConfig config;
+
         public class Baker : Baker<ProjectileAuthoring>
         {
             public override void Bake(ProjectileAuthoring authoring)
             {
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
+                var config = authoring.config;
+
                 AddComponent<ProjectileTag>(entity);
-                SetComponent(entity, new ProjectileTag { Damage = 120f });
-
                 AddComponent<Direction>(entity);
-                AddComponent<Lifetime>(entity);
-                SetComponent(entity, new Lifetime { Life = 1f });
-
-                AddComponent<MovementSpeed>(entity);
-                SetComponent(entity, new MovementSpeed { Value = 5f });
-
                 AddComponent<Prefab>(entity);
+                AddComponent(entity, new Lifetime { Life = config.Lifetime, DecayRate = 1f });
+                AddComponent(entity, new MovementSpeed { Value = config.Speed });
             }
         }
     }

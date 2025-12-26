@@ -2,8 +2,5 @@ using Unity.Entities;
 
 namespace Swarm.ECS.Components
 {
-    public struct DamageEvent : IBufferElementData
-    {
-        public float Value;
-    }
+    public struct DamageEvent : IBufferElementData {}
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2243fecdec6da6045a96dc5e9ab8aa31, type: 3}
+  m_Name: EnemySpawnerConfig
+  m_EditorClassIdentifier: 
+  _cooldown: 5
+  _count: 100
+  _distanceMin: 10
+  _distanceMax: 14
+  _enemyPrefab: {fileID: 5800253130591241126, guid: e6236b3086629454caaf3e6d1a9df5b0, type: 3}
