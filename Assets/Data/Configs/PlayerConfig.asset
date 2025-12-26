@@ -15,5 +15,5 @@ MonoBehaviour:
   _speed: 6
   _screenWidth: 10
   _screenHeight: 8
-  _projectileCooldown: 5
+  _projectileCooldown: 0.4
   _projectileMaxDistance: 8
