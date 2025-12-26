@@ -5,6 +5,7 @@ using Swarm.ECS.Components;
 namespace Swarm.ECS.Systems
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(SimulationSystemGroup), OrderLast = true)]
     public partial struct DespawnSystem : ISystem
     {
         [BurstCompile]

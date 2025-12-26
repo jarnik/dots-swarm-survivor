@@ -26,7 +26,8 @@ namespace Swarm.ECS.Systems
 
             new CalculateDirectionJob
             {
-                PlayerPos = playerPos
+                PlayerPos = playerPos,
+                MinDistanceSq = math.pow(0.5f, 2)
             }.ScheduleParallel();
         }
     }
@@ -35,6 +36,7 @@ namespace Swarm.ECS.Systems
     public partial struct CalculateDirectionJob : IJobEntity
     {
         public float3 PlayerPos;
+        public float MinDistanceSq;
 
         void Execute(ref Direction dir, ref MovementSpeed speed, in LocalTransform transform, in EnemyTag tag)
         {
@@ -42,7 +44,7 @@ namespace Swarm.ECS.Systems
             float distanceSq = math.lengthsq(delta);
 
             // Only normalize if the distance is greater than a very small epsilon
-            if (distanceSq > 0.001f)
+            if (distanceSq > MinDistanceSq)
             {
                 dir.Value = delta / math.sqrt(distanceSq);
             }

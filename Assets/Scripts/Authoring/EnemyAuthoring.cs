@@ -21,8 +21,6 @@ namespace Swarm.ECS
                 AddComponent<Prefab>(entity);
                 AddComponent(entity, new Lifetime { Life = 1f });
 
-                var buffer = AddBuffer<DamageEvent>(entity);
-
                 SetComponent(entity, new MovementSpeed { Value = config.Speed });
             }
         }

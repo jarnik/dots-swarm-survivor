@@ -8,6 +8,7 @@ namespace Swarm.ECS.Systems
 {
     [BurstCompile]
     [UpdateBefore(typeof(DespawnSystem))]
+    [UpdateAfter(typeof(ProjectileSpawnSystem))]
     public partial struct ProjectileCollisionSystem : ISystem
     {
         [BurstCompile]
@@ -23,8 +24,8 @@ namespace Swarm.ECS.Systems
                 grid = gridData.Grid,
                 localTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(true),
                 enemyTagLookup = SystemAPI.GetComponentLookup<EnemyTag>(true),
-                hitRadius = 0.2f,
-            ECB = ecb
+                hitRadius = 0.8f,
+                ECB = ecb
             }.ScheduleParallel(state.Dependency);
 
             state.Dependency = collisionJob;
@@ -47,8 +48,8 @@ namespace Swarm.ECS.Systems
 
             public void OnHit(Entity enemy)
             {
-                ECB.AddBuffer<DamageEvent>(SortKey, enemy);
-                ECB.AppendToBuffer(SortKey, enemy, new DamageEvent {});
+                ECB.RemoveComponent<Lifetime>(SortKey, enemy);
+                ECB.AddComponent(SortKey, enemy, new Lifetime { Life = 0f });
             }
         }
 

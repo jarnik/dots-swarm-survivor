@@ -6,6 +6,5 @@ namespace Swarm.ECS.Components
     public struct EnemyHashGrid : IComponentData
     {
         public NativeParallelMultiHashMap<uint, Entity> Grid;
-        public float CellSize;
     }
 }

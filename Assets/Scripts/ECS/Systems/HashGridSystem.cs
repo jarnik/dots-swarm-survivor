@@ -10,7 +10,7 @@ namespace Swarm.ECS.Systems
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public partial struct HashGridSystem : ISystem
     {
-        public const float CellSize = 0.3f;
+        private const float CellSize = 1f;
 
         public void OnUpdate(ref SystemState state)
         {
@@ -23,8 +23,7 @@ namespace Swarm.ECS.Systems
 
             state.Dependency = new PopulateGridJob
             {
-                Grid = grid.AsParallelWriter(),
-                CellSize = 2.0f
+                Grid = grid.AsParallelWriter()
             }.ScheduleParallel(query, state.Dependency);
 
             if (!SystemAPI.HasSingleton<EnemyHashGrid>())
@@ -34,19 +33,13 @@ namespace Swarm.ECS.Systems
 
             SystemAPI.SetSingleton(new EnemyHashGrid
             {
-                Grid = grid,
-                CellSize = CellSize
+                Grid = grid
             });
         }
 
         public static int2 GetGridPosition(float3 position)
         {
-            return (int2)math.floor(position.xy / CellSize);
-        }
-
-        public static uint GetGridHash(float3 position)
-        {
-            return math.hash(GetGridPosition(position));
+            return (int2)math.floor(position.xz / CellSize);
         }
 
         public static uint GetGridHash(int2 gridPosition)
@@ -112,12 +105,11 @@ namespace Swarm.ECS.Systems
     public partial struct PopulateGridJob : IJobEntity
     {
         public NativeParallelMultiHashMap<uint, Entity>.ParallelWriter Grid;
-        public float CellSize;
 
         void Execute(Entity entity, in LocalTransform transform, in EnemyTag tag)
         {
             int2 gridPos = HashGridSystem.GetGridPosition(transform.Position);
-            uint hash = math.hash(gridPos);
+            uint hash = HashGridSystem.GetGridHash(gridPos);
             Grid.Add(hash, entity);
         }
     }
