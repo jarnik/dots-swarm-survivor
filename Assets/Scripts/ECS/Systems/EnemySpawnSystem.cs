@@ -73,7 +73,7 @@ namespace Swarm.ECS
 
             Entity e = ECB.Instantiate(index, Prefab);
 
-            ECB.SetComponent(index, e, LocalTransform.FromPosition(new float3(targetPos.xy, 0f)));
+            ECB.SetComponent(index, e, LocalTransform.FromPosition(new float3(targetPos.x, 0f, targetPos.y)));
         }
     }
 }

@@ -2,5 +2,5 @@ using Swarm.Runtime;
 
 public class StateData
 {
-    public Mode mode = Mode.GameObject;
+    public Mode mode = Mode.ECS;
 }

@@ -19,7 +19,7 @@ namespace Swarm.ECS
 
                 var buffer = AddBuffer<DamageEvent>(entity);
 
-                SetComponent(entity, new MovementSpeed { Value = 0.3f });
+                SetComponent(entity, new MovementSpeed { Value = 1f });
                 SetComponent(entity, new Health { Value = 100f });
             }
         }

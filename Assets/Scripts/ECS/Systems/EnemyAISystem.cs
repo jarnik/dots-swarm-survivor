@@ -9,15 +9,20 @@ namespace Swarm.ECS.Systems
     [BurstCompile]
     public partial struct EnemyAISystem : ISystem
     {
+        private void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<PlayerData>();
+        }
+
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            if (!SystemAPI.TryGetSingletonEntity<PlayerTag>(out Entity playerEntity))
+            if (!SystemAPI.TryGetSingletonEntity<PlayerData>(out Entity playerEntity))
             {
                 return;
             }
-            var playerTransform = SystemAPI.GetComponent<LocalTransform>(playerEntity);
-            float3 playerPos = playerTransform.Position;
+
+            float3 playerPos = SystemAPI.GetComponent<PlayerData>(playerEntity).Position;
 
             new CalculateDirectionJob
             {
@@ -45,7 +50,7 @@ namespace Swarm.ECS.Systems
             {
                 dir.Value = float3.zero;
             }
-            dir.isFlipFace = true;
+            dir.isOriented = true;
         }
     }
 }

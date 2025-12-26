@@ -3,13 +3,17 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace Swarm.ECS.Systems
 {
     [BurstCompile]
     public partial struct ProjectileSpawnSystem : ISystem
     {
+        private void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<PlayerData>();
+        }
+
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
@@ -18,8 +22,8 @@ namespace Swarm.ECS.Systems
             var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
             var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
 
-            foreach (var (spawner, transform, entity) in
-                    SystemAPI.Query<RefRW<ProjectileSpawner>, RefRO<LocalTransform>>()
+            foreach (var (spawner, entity) in
+                    SystemAPI.Query<RefRW<ProjectileSpawner>>()
                     .WithEntityAccess())
             {
                 spawner.ValueRW.Timer -= deltaTime;
@@ -30,12 +34,18 @@ namespace Swarm.ECS.Systems
 
                     spawner.ValueRW.Timer = config.Cooldown;
 
+                    if (!SystemAPI.TryGetSingletonEntity<PlayerData>(out Entity playerDataEntity))
+                    {
+                        return;
+                    }
+                    float3 playerPosition = SystemAPI.GetComponent<PlayerData>(playerDataEntity).Position;
+
                     // ? TODO use the HashGrid to find the nearest N enemies, in neighborhood
                     var spawnJob = new SpawnProjectileJob
                     {
                         ECB = ecb,
                         Prefab = config.ProjectilePrefab,
-                        Origin = transform.ValueRO.Position,
+                        Origin = playerPosition,
                         DistanceMax = config.DistanceMax
                     }.ScheduleParallel(state.Dependency);
 
@@ -53,7 +63,6 @@ namespace Swarm.ECS.Systems
         public float3 Origin;
         public float DistanceMax;
 
-        // We use [ChunkIndexInQuery] for the ParallelWriter
         void Execute([ChunkIndexInQuery] int chunkIndex, in LocalTransform enemyTransform, in EnemyTag tag)
         {
             float3 delta = enemyTransform.Position - Origin;

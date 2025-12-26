@@ -3,8 +3,8 @@ using Unity.Mathematics;
 
 namespace Swarm.ECS.Components
 {
-    public struct PlayerInput : IComponentData
+    public struct PlayerData : IComponentData
     {
-        public float2 Movement;
+        public float3 Position;
     }
 }

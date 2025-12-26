@@ -19,7 +19,7 @@ namespace Swarm.ECS
                 SetComponent(entity, new Lifetime { Life = 1f });
 
                 AddComponent<MovementSpeed>(entity);
-                SetComponent(entity, new MovementSpeed { Value = 2f });
+                SetComponent(entity, new MovementSpeed { Value = 5f });
 
                 AddComponent<Prefab>(entity);
             }
