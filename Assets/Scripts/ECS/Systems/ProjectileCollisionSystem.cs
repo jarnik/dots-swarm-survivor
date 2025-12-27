@@ -48,8 +48,7 @@ namespace Swarm.ECS.Systems
 
             public void OnHit(Entity enemy)
             {
-                ECB.RemoveComponent<Lifetime>(SortKey, enemy);
-                ECB.AddComponent(SortKey, enemy, new Lifetime { Life = 0f });
+                ECB.AddComponent(SortKey, enemy, new DeadTag() { });
             }
         }
 

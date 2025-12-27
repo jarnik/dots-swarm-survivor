@@ -1,6 +1,7 @@
 using Unity.Burst;
 using Unity.Entities;
 using Swarm.ECS.Components;
+using Unity.Jobs;
 
 namespace Swarm.ECS.Systems
 {
@@ -16,13 +17,34 @@ namespace Swarm.ECS.Systems
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
             var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
-            var despawnJob = new DespawnByLifeJob
+            var despawnDeadJob = new DespawnDead
+            {
+                DeltaTime = deltaTime,
+                Ecb = ecb.AsParallelWriter()
+            }.ScheduleParallel(state.Dependency);
+            despawnDeadJob.Complete();
+
+            var despawnByLifeJob = new DespawnByLifeJob
             {
                 DeltaTime = deltaTime,
                 Ecb = ecb.AsParallelWriter()
             }.ScheduleParallel(state.Dependency);
 
-            state.Dependency = despawnJob;
+            // var combinedDeps = JobHandle.CombineDependencies(despawnDeadJob, despawnByLifeJob);
+
+            state.Dependency = despawnByLifeJob;
+        }
+
+        [BurstCompile]
+        public partial struct DespawnDead : IJobEntity
+        {
+            public float DeltaTime;
+            public EntityCommandBuffer.ParallelWriter Ecb;
+
+            void Execute([ChunkIndexInQuery] int sortKey, Entity entity, in DeadTag deadTag)
+            {
+                Ecb.DestroyEntity(sortKey, entity);
+            }
         }
 
         [BurstCompile]

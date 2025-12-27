@@ -27,6 +27,17 @@ namespace Swarm.GO
             _projectilePool = new ObjectPool<Projectile>(CreateProjectile);
         }
 
+        public void Clear()
+        {
+            foreach (var projectile in _projectiles)
+            {
+                _projectilePool.Release(projectile);
+                projectile.gameObject.SetActive(false);
+            }
+            _projectilePool.Clear();
+            _projectiles.Clear();
+        }
+
         private Projectile CreateProjectile()
         {
             var projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity, transform);

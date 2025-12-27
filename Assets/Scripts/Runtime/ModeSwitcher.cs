@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Swarm.Runtime
@@ -6,8 +5,7 @@ namespace Swarm.Runtime
     public class ModeSwitcher : MonoBehaviour
     {
         [SerializeField] private StateContainer _stateContainer;
-        [SerializeField] private GameObject[] _gameObjectModeObjects;
-        [SerializeField] private GameObject[] _ecsModeObjects;
+        [SerializeField] private ModeBase[] _modes;
 
         private void Awake()
         {
@@ -32,14 +30,15 @@ namespace Swarm.Runtime
             _stateContainer.data.mode = newMode;
             Debug.Log($"Switched to {_stateContainer.data.mode} mode.");
 
-            for (int i = 0; i < _gameObjectModeObjects.Length; i++)
+            for (int i = 0; i < _modes.Length; i++)
             {
-                _gameObjectModeObjects[i].SetActive(newMode == Mode.GameObject);
-            }
+                var mode = _modes[i];
+                mode.SetActive(mode.ModeType == newMode);
 
-            for (int i = 0; i < _ecsModeObjects.Length; i++)
-            {
-                _ecsModeObjects[i].SetActive(newMode == Mode.ECS);
+                if (mode.ModeType != newMode)
+                {
+                    mode.Clear();
+                }
             }
         }
     }

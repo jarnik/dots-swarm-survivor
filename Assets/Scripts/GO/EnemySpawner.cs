@@ -24,7 +24,18 @@ namespace Swarm.GO
             Debug.Assert(_config != null, "Enemy spawner config is not assigned.");
             Debug.Assert(_enemyPrefab != null, "Enemy prefab is not assigned.");
 
-            _enemyPool = new ObjectPool<Enemy>(CreateEnemy);
+            _enemyPool = new ObjectPool<Enemy>(CreateEnemy, actionOnDestroy: OnDestroyEnemy);
+        }
+
+        public void Clear()
+        {
+            foreach (var enemy in _enemies)
+            {
+                _enemyPool.Release(enemy);
+                enemy.gameObject.SetActive(false);
+            }
+            _enemyPool.Clear();
+            _enemies.Clear();
         }
 
         private Enemy CreateEnemy()
@@ -32,6 +43,11 @@ namespace Swarm.GO
             var enemy = Instantiate(_enemyPrefab, Vector3.zero, Quaternion.identity, transform);
             enemy.Initialize(_playerTransform);
             return enemy;
+        }
+
+        private void OnDestroyEnemy(Enemy enemy)
+        {
+            Destroy(enemy.gameObject);
         }
 
         private void Update()
