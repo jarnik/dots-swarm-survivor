@@ -59,6 +59,9 @@ namespace Swarm.GO
         {
             for (int i = 0; i < _config.CountGO; i++)
             {
+                if (_enemies.Count >= _config.CountGOMax)
+                    break;
+
                 float distance = Random.Range(_config.DistanceMin, _config.DistanceMax);
                 float angle = Random.Range(0f, 360f);
                 Vector3 direction = new Vector3(

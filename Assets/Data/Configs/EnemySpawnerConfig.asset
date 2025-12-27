@@ -15,6 +15,8 @@ MonoBehaviour:
   _cooldown: 1
   _countECS: 1200
   _countGO: 300
+  _countECSMax: 50000
+  _countGOMax: 8000
   _distanceMin: 20
   _distanceMax: 35
   _enemyPrefab: {fileID: 5800253130591241126, guid: e6236b3086629454caaf3e6d1a9df5b0, type: 3}

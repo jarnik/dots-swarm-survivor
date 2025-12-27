@@ -21,6 +21,7 @@ namespace Swarm.ECS
                 {
                     EnemyPrefab = enemyPrefabEntity,
                     Count = config.CountECS,
+                    CountMax = config.CountECSMax,
                     Cooldown = config.Cooldown,
                     DistanceMin = config.DistanceMin,
                     DistanceMax = config.DistanceMax

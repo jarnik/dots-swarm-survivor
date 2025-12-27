@@ -8,6 +8,8 @@ namespace Swarm.Data
         [SerializeField] private float _cooldown;
         [SerializeField] private int _countECS;
         [SerializeField] private int _countGO;
+        [SerializeField] private int _countECSMax;
+        [SerializeField] private int _countGOMax;
         [SerializeField] private float _distanceMin;
         [SerializeField] private float _distanceMax;
         [SerializeField] private GameObject _enemyPrefab;
@@ -15,6 +17,8 @@ namespace Swarm.Data
         public float Cooldown => _cooldown;
         public int CountECS => _countECS;
         public int CountGO => _countGO;
+        public int CountECSMax => _countECSMax;
+        public int CountGOMax => _countGOMax;
         public float DistanceMin => _distanceMin;
         public float DistanceMax => _distanceMax;
         public GameObject EnemyPrefab => _enemyPrefab;

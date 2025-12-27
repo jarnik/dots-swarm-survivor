@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using Swarm.ECS.Components;
 using Unity.Burst;
 using Unity.Jobs;
+using UnityEngine.Rendering.Universal;
 
 namespace Swarm.ECS
 {
@@ -32,6 +33,14 @@ namespace Swarm.ECS
 
                     var count = config.ValueRO.Count;
                     var frameSeed = (uint)(SystemAPI.Time.ElapsedTime * 1000) + (uint)entity.Index;
+
+                    var currentEntityCount = state.World.EntityManager.UniversalQuery.CalculateEntityCount();
+                    if (currentEntityCount + count > config.ValueRO.CountMax)
+                    {
+                        count = config.ValueRO.CountMax - currentEntityCount;
+                        if (count <= 0)
+                            continue;
+                    }
 
                     var spawnJob = new SpawnEnemyJob
                     {
