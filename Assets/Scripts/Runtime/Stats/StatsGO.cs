@@ -1,16 +1,19 @@
+using Swarm.GO;
 using UnityEngine;
 
 namespace Swarm.Runtime
 {
     public class StatsGO : StatsProviderBase
     {
+        [SerializeField] private EnemySpawner _enemySpawner;
+
         private float _fps;
 
         private void Awake()
         {
         }
 
-        public override int GetObjectCount() => 666;
+        public override int GetObjectCount() => _enemySpawner.GetEnemyCount();
 
         private void Update()
         {

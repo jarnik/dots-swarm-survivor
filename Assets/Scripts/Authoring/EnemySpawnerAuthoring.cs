@@ -20,7 +20,7 @@ namespace Swarm.ECS
                 AddComponent(singletonEntity, new EnemySpawnerConfig
                 {
                     EnemyPrefab = enemyPrefabEntity,
-                    Count = config.Count,
+                    Count = config.CountECS,
                     Cooldown = config.Cooldown,
                     DistanceMin = config.DistanceMin,
                     DistanceMax = config.DistanceMax

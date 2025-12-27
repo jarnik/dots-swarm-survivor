@@ -80,10 +80,7 @@ Systems
 - [ ] DespawnSystem
 
 GO
-- [ ] EnemySpawner
-- [ ] PlayerInput
+- [x] EnemySpawner
 - [ ] ProjectileSpawner
-- [ ] UnitMovement
-- [ ] Projectile triffer - collide w enemy - hit
-- [ ] Lifetime
-- [ ] Health
+- [x] Enemy
+- [ ] Projectile

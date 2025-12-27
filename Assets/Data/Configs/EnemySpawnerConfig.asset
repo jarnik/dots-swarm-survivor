@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: EnemySpawnerConfig
   m_EditorClassIdentifier: 
   _cooldown: 1
-  _count: 1200
+  _countECS: 1200
+  _countGO: 500
   _distanceMin: 20
   _distanceMax: 35
   _enemyPrefab: {fileID: 5800253130591241126, guid: e6236b3086629454caaf3e6d1a9df5b0, type: 3}
