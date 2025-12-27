@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Swarm.GO
 {
@@ -10,8 +12,27 @@ namespace Swarm.GO
         [SerializeField] private Transform _spawnOrigin;
 
         public int GetEnemyCount() => transform.childCount;
+        public IReadOnlyList<Enemy> Enemies => _enemies;
+
+        private ObjectPool<Enemy> _enemyPool;
 
         private float _timer;
+        private List<Enemy> _enemies = new List<Enemy>();
+
+        private void Start()
+        {
+            Debug.Assert(_config != null, "Enemy spawner config is not assigned.");
+            Debug.Assert(_enemyPrefab != null, "Enemy prefab is not assigned.");
+
+            _enemyPool = new ObjectPool<Enemy>(CreateEnemy);
+        }
+
+        private Enemy CreateEnemy()
+        {
+            var enemy = Instantiate(_enemyPrefab, Vector3.zero, Quaternion.identity, transform);
+            enemy.Initialize(_playerTransform);
+            return enemy;
+        }
 
         private void Update()
         {
@@ -21,6 +42,16 @@ namespace Swarm.GO
             {
                 _timer = 0f;
                 SpawnEnemies();
+            }
+        }
+
+        public void OnEnemyDestroyed(Enemy enemy)
+        {
+            if (_enemies.Contains(enemy))
+            {
+                _enemies.Remove(enemy);
+                _enemyPool.Release(enemy);
+                enemy.gameObject.SetActive(false);
             }
         }
         
@@ -37,8 +68,14 @@ namespace Swarm.GO
                 );
                 Vector3 spawnPosition = _spawnOrigin.position + direction * distance;
 
-                var enemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity, transform);
+                var enemy = _enemyPool.Get();
+                enemy.transform.position = spawnPosition;
+                enemy.transform.rotation = Quaternion.identity;
+                enemy.gameObject.SetActive(true);
+
                 enemy.Initialize(_playerTransform);
+
+                _enemies.Add(enemy);
             }
         }
         

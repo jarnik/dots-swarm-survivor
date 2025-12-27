@@ -6,14 +6,11 @@ namespace Swarm.Runtime
     public class StatsGO : StatsProviderBase
     {
         [SerializeField] private EnemySpawner _enemySpawner;
+        [SerializeField] private ProjectileSpawner _projectileSpawner;
 
         private float _fps;
 
-        private void Awake()
-        {
-        }
-
-        public override int GetObjectCount() => _enemySpawner.GetEnemyCount();
+        public override int GetObjectCount() => _enemySpawner.GetEnemyCount() + _projectileSpawner.GetProjectileCount();
 
         private void Update()
         {

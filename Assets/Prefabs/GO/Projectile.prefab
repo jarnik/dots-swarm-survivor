@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7913764465053826653}
-  - component: {fileID: 4516715625487790947}
-  m_Layer: 0
-  m_Name: Projectile 1
+  - component: {fileID: -7023834508647264138}
+  m_Layer: 7
+  m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 4341084719407409308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4516715625487790947
+--- !u!114 &-7023834508647264138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5800253130591241126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d75565a800c28747a19de3e6cf88d22, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b1a8d4528bdb6644b8e3c998fbce735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 7774e5a1018b4a74c85966098de2089c, type: 2}
+  _config: {fileID: 11400000, guid: 7774e5a1018b4a74c85966098de2089c, type: 2}
+  _enemyTag: Enemy
+  _radius: 0.5
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &4302090963630346103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,6 +114,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 21b13c3d1afbee4418faece74f991ff6, type: 3}
       propertyPath: m_Name
       value: cooking-knife
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 21b13c3d1afbee4418faece74f991ff6, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

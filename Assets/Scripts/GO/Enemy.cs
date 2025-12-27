@@ -13,7 +13,7 @@ namespace Swarm.GO
             _playerTransform = playerTransform;
         }
 
-        void Update()
+        private void Update()
         {
             UpdateMovement();
         }
