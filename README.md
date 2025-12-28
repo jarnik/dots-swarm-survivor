@@ -5,6 +5,15 @@ Swarm Survivor (Unity DOTS/ECS)
 
 Simple game showcasing significant performance boost introduced by Unity [DOTS](https://unity.com/dots).
 
+Why DOTS?
+---
+Unity adds extra overhead for each GameObject, making massive simulations like these unsustainable.
+
+Using DOTS was necessary for handling:
+- multi-threaded processing of enemies and projectiles - **C# Jobs**
+- rendering massive amounts of meshes - **Entities, Entity graphics**
+- fast collision detection via hash grid - **Mathematics, Collections, Burst compiler**
+
 DOTS Architecture
 ---
 
@@ -24,15 +33,6 @@ Optimization report
 | DOTS | 50,000 | 83 | ![](profile-dots.png) |
 
 _Tested on Intel Iris Xe Graphics._
-
-Why DOTS?
----
-Unity adds extra overhead for each GameObject, making massive simulations like these unsustainable.
-
-Using DOTS was necessary for handling:
-- multi-threaded processing of enemies and projectiles - **C# Jobs**
-- rendering massive amounts of meshes - **Entities, Entity graphics**
-- fast collision detection via hash grid - **Mathematics, Collections, Burst compiler**
 
 Technical Stack
 ---
