@@ -3,7 +3,7 @@ Swarm Survivor (Unity DOTS/ECS)
 
 ![](dots-swarm-survivor.gif)
 
-Simple game showcasing significant perfornance boost introduced by Unity [DOTS](https://unity.com/dots).
+Simple game showcasing significant performance boost introduced by Unity [DOTS](https://unity.com/dots).
 
 DOTS Architecture
 ---
@@ -11,10 +11,10 @@ DOTS Architecture
 ![](architecture-diagram.png)
 
 - **Enemies** and **projectiles** are implemented separately - using GameObjects and ECS entities
-    - `\Assets\Scripts\GO`
-    - `\Assets\Scripts\ECS`
+    - `/Assets/Scripts/GO`
+    - `/Assets/Scripts/ECS`
 - **Player** lives in managed (GameObject) world, shared by both modes
-- for **ECS**, Player position is bridged via `PlayerData` component
+- For **ECS**, Player position is bridged via `PlayerData` component
 
 Optimization report
 ---
@@ -37,14 +37,14 @@ Using DOTS was necessary for handling:
 Technical Stack
 ---
 - Unity 2022.3.62f3 LTS
-- com.unity.entities 1.4.3
-- com.unity.entities.graphics 1.4.6
-- com.unity.burst 1.8.25
+- Entities 1.4.3
+- Entities Graphics 1.4.6
+- Burst Compiler 1.8.25
 
 Getting started
 ---
 - Open the project in `Unity 2022.3 LTS` or newer
-- Open scene `Assets/Scenes/MainScene`
+- Open scene `/Assets/Scenes/MainScene`
 - Press `SPACE` to toggle between GameObject and DOTS implementation
 
 Feel free to use this as a base for your own DOTS project!
@@ -52,7 +52,7 @@ Feel free to use this as a base for your own DOTS project!
 License
 ---
 The project includes the following third-party assets:
-- Models and animations - [Kenney Game Assets All-in-1](https://kenney.itch.io/kenney-game-assets) - for personal, educational, and commercial purposes
+- Models and animations - [Kenney Game Assets All-in-1](https://kenney.itch.io/kenney-game-assets) - valid for personal, educational, and commercial purposes
 
 
 
