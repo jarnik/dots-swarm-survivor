@@ -1,9 +1,9 @@
 Swarm Survivor
 ======
 
-** GIF **
+![](dots-swarm-survivor.gif)
 
-Simple game showcasing Unity [DOTS](https://unity.com/dots) performance advantages.
+Simple game showcasing significant perfornance boost introduced by Unity [DOTS](https://unity.com/dots).
 
 Technical Stack
 ---

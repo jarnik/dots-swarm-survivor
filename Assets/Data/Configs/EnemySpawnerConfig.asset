@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: EnemySpawnerConfig
   m_EditorClassIdentifier: 
   _cooldown: 1
-  _countECS: 1200
+  _countECS: 1000
   _countGO: 300
-  _countECSMax: 50000
+  _countECSMax: 15000
   _countGOMax: 8000
   _distanceMin: 20
   _distanceMax: 35
