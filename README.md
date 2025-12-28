@@ -1,7 +1,7 @@
 Swarm Survivor (Unity DOTS/ECS)
 ======
 
-![](dots-swarm-survivor.gif)
+![](README-img/dots-swarm-survivor.gif)
 
 Simple game showcasing significant performance boost introduced by Unity [DOTS](https://unity.com/dots).
 
@@ -17,7 +17,7 @@ Using DOTS was necessary for handling:
 DOTS Architecture
 ---
 
-![](architecture-diagram.png)
+![](README-img/architecture-diagram.png)
 
 - **Enemies** and **projectiles** are implemented separately - using GameObjects and ECS entities
     - `/Assets/Scripts/GO`
@@ -29,8 +29,8 @@ Optimization report
 ---
 | Mode | Objects | FPS | Profiler Sample |
 | --- | --- | --- | --- |
-| GameObject | 7,500 | 30 | ![](profile-go.png) |
-| DOTS | 50,000 | 83 | ![](profile-dots.png) |
+| GameObject | 7,500 | 30 | ![](README-img/profile-go.png) |
+| DOTS | 50,000 | 83 | ![](README-img/profile-dots.png) |
 
 _Tested on Intel Iris Xe Graphics._
 
