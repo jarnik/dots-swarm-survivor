@@ -1,37 +1,29 @@
-Swarm Survivor
+Swarm Survivor (Unity DOTS/ECS)
 ======
 
 ![](dots-swarm-survivor.gif)
 
 Simple game showcasing significant perfornance boost introduced by Unity [DOTS](https://unity.com/dots).
 
-Technical Stack
----
-- Unity 2022.3.62f3 LTS
-- com.unity.entities 1.4.3
-- com.unity.entities.graphics 1.4.6
-- com.unity.burst 1.8.25
-
-Architecture
+DOTS Architecture
 ---
 
 ![](architecture-diagram.png)
 
-- **Player** lives in managed (GameObject) world, its position reflected to ECS via `PlayerData` component
-- Enemies and projectiles are implemented separately for respective modes
+- **Enemies** and **projectiles** are implemented separately - using GameObjects and ECS entities
     - `\Assets\Scripts\GO`
     - `\Assets\Scripts\ECS`
+- **Player** lives in managed (GameObject) world, shared by both modes
+- for **ECS**, Player position is bridged via `PlayerData` component
 
 Optimization report
 ---
-xxx Side-by-side Profiler screenshots showing Burst-compiled vs. Non-Burst execution times.
+| Mode | Objects | FPS | Profiler Sample |
+| --- | --- | --- | --- |
+| GameObject | 7,500 | 30 | ![](profile-go.png) |
+| DOTS | 50,000 | 83 | ![](profile-dots.png) |
 
-| Mode | Objects | FPS |
-| --- | --- | --- |
-| GameObject | 5,000 | 30 |
-| DOTS | 10,000 | 60 |
-
-Tested on Intel Iris Xe Graphics.
+_Tested on Intel Iris Xe Graphics._
 
 Why DOTS?
 ---
@@ -41,6 +33,13 @@ Using DOTS was necessary for handling:
 - multi-threaded processing of enemies and projectiles - **C# Jobs**
 - rendering massive amounts of meshes - **Entities, Entity graphics**
 - fast collision detection via hash grid - **Mathematics, Collections, Burst compiler**
+
+Technical Stack
+---
+- Unity 2022.3.62f3 LTS
+- com.unity.entities 1.4.3
+- com.unity.entities.graphics 1.4.6
+- com.unity.burst 1.8.25
 
 Getting started
 ---
